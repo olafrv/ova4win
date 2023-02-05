@@ -47,8 +47,6 @@ rm -f *-data   # uncomment to debug *-data file content
 # References
 
 * https://cloud-images.ubuntu.com/
-* https://cloud-images.ubuntu.com/focal/current/
-* https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.ova
 * https://cloudinit.readthedocs.io/en/latest/topics/examples.html
 * https://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvm-networking
 * https://gist.github.com/AugustoCiuffoletti/e0af693878e8fa9ab5b6e8d761eb9eec
