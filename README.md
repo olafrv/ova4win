@@ -2,9 +2,8 @@
 
 # Requirements
 
-* Windows 11 + Virtualbox 6
-* Ubuntu 22.04 for OVA generation
-
+* Ubuntu Linux 22.04 for OVA generation.
+* Windows 11 + Virtualbox 6 to run the OVA.
 # Install
 
 Download desired Ubuntu Linux cloud image (OVA format):
@@ -26,16 +25,24 @@ sudo apt install dos2unix;          # for chaging new line endings
 
 Edit the virtualbox.tpl file for changing VM name, and build.sh for your SSH key.
 
-Generate the .iso and .bat files
+Generate the `.iso` and `.bat` files:
 
 ```bash
 ./build.sh # To generate ./dist/*.*
 ```
 
-Copy alls generated files to a local Windows folder and then 
-execute the virtualbox.bat => startup.bat scripts.
+Copy the `.ova` you download previously and `dist/*.*` files to a local 
+Windows folder and then execute the virtualbox.bat => startup.bat scripts.
+You can modify the `publish.sh` script for the copy operation.
 
-Optionally add startup.bat to Windows Startup Programs (auto start on reboot).
+Optionally add 'startup.bat' to Windows Startup Programs (auto start on reboot).
+
+# Debugging
+
+Uncomment in `build.sh` the following line to inspect the files packaged into `cloud-init.iso`:
+```bash
+rm -f *-data   # uncomment to debug *-data file content
+```
 
 # References
 

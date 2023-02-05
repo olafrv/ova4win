@@ -52,7 +52,7 @@ unix2dos virtualbox.bat 2>/dev/null
 
 rm -f cloud-init.iso
 cloud-localds cloud-init.iso user-data meta-data 
-# rm -f *-data
+rm -f *-data   # uncomment to debug *-data file content
 
 cat > startup.bat <<EOF
 rem Startup of VMS
