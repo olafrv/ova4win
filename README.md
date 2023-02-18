@@ -9,7 +9,9 @@
 Download desired Ubuntu Linux cloud image (OVA format):
 
 ```bash
-wget https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.ova
+# See references section for a download link
+file="https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.ova"
+wget $file -O dist/$(basename $file)
 ```
 
 Install tools to create Cloud Init ISO
