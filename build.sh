@@ -4,7 +4,17 @@
 export id=$(echo $RANDOM | md5sum | head -c 6)
 export vm="ubuntu-${id}"
 export pw=$(echo "ubuntu" | mkpasswd -m sha-512 --rounds=4096 --stdin)
-export sk=$(cat $HOME/.ssh/id_ed25519.pub)
+# export pk="$HOME/.ssh/id_ed25519.pub"
+export pk="./id_ed25519.pub"
+export sk=$(cat $pk)
+
+echo "Custom VM name? (Enter for Auto)"
+read vmc
+
+if [ ! -z "$vmc" ]
+then
+  vm=$vmc
+fi
 
 mkdir -p dist
 cd dist
