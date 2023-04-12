@@ -1,11 +1,16 @@
 #!/bin/bash
 
+set -ex
+
  # id format, will be used for hostname and instance id (without domain).
 export id=$(echo $RANDOM | md5sum | head -c 6)
 export vm="ubuntu-${id}"
 export pw=$(echo "ubuntu" | mkpasswd -m sha-512 --rounds=4096 --stdin)
+
+# SSH Public Key ?
 # export pk="$HOME/.ssh/id_ed25519.pub"
 export pk="./id_ed25519.pub"
+cat $pk
 export sk=$(cat $pk)
 
 echo "Custom VM name? (Enter for Auto)"
@@ -19,6 +24,8 @@ fi
 mkdir -p dist
 cd dist
 
+# See README.md for *-data file format/options
+
 cat > meta-data <<EOF
 instance-id: $vm
 local-hostname: $vm
@@ -31,6 +38,11 @@ EOF
 
 cat > user-data <<EOF
 #cloud-config
+timezone: Europe/Berlin
+keyboard:
+  layout: de
+  model: pc105
+  variant: nodeadkeys
 chpasswd:
   expire: false
 # ssh_pwauth: true
@@ -52,9 +64,13 @@ package_upgrade: true
 package_reboot_if_required: true
 runcmd: 
   - [ service, sshd, restart ]
+  - [ systemctl, disable, --now, multipathd ] 
+  - [ apt, purge, -y, unattended-upgrades, snapd, apparmor, irqbalance ]  
 late-commands:
   - ip addr
   - ip route
+  - date
+  - uptime
 EOF
 
 sed s/"set VMNAME=.*"/"set VMNAME=$vm"/ ../virtualbox.tpl > virtualbox.bat

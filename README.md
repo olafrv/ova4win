@@ -4,6 +4,7 @@
 
 * Ubuntu Linux 22.04 for OVA generation.
 * Windows 11 + Virtualbox 6 to run the OVA.
+
 # Install
 
 Download desired Ubuntu Linux cloud image (OVA format):
@@ -25,7 +26,7 @@ sudo apt install dos2unix;          # for chaging new line endings
 
 # Usage
 
-Edit the virtualbox.tpl file for changing VM name, and build.sh for your SSH key.
+Set the SSH Public Key path `$pk` variable in `build.sh`.
 
 Generate the `.iso` and `.bat` files:
 
@@ -34,10 +35,11 @@ Generate the `.iso` and `.bat` files:
 ```
 
 Copy the `.ova` you download previously and `dist/*.*` files to a local 
-Windows folder and then execute the virtualbox.bat => startup.bat scripts.
-You can modify the `publish.sh` script for the copy operation.
+Windows folder and execute first virtualbox.bat.
 
-Optionally add 'startup.bat' to Windows Startup Programs (auto start on reboot).
+You can modify the `publish.sh` script for the copy operation (shared drive).
+
+Optionally add 'startup.bat' to Windows Startup Programs (auto start VM on reboot).
 
 # Debugging
 
@@ -50,5 +52,7 @@ rm -f *-data   # uncomment to debug *-data file content
 
 * https://cloud-images.ubuntu.com/
 * https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+* https://cloudinit.readthedocs.io/en/latest/reference/modules.html
+* https://wiki.archlinux.org/title/Xorg/Keyboard_configuration
 * https://www.virtualbox.org/manual/ch08.html#vboxmanage-modifyvm-networking
 * https://gist.github.com/AugustoCiuffoletti/e0af693878e8fa9ab5b6e8d761eb9eec
