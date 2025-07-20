@@ -36,6 +36,13 @@ network:
       dhcp4: true
 EOF
 
+# The packages are removed from the Linux VMs for the following reasons:
+# 1. unattended-upgrades: avoids automatic updates
+# 2. snapd: use apt instead of snapd for package management
+# 3. apparmor: disable to avoid conflicts with other security measures
+# 4. irqbalance: small VM, single CPU, no DMI or pass-through devices
+# 5. multipathd: small VM, no SAN or iSCSI devices
+
 cat > user-data <<EOF
 #cloud-config
 timezone: Europe/Berlin
@@ -55,17 +62,21 @@ users:
     ssh_authorized_keys:
      - $sk
 packages:
-  - openssh-server
-  - snapd
   - acpid
   - net-tools
+  - openssh-server
+  - htop
+  - vim
 package_update: true
 package_upgrade: true
 package_reboot_if_required: true
 runcmd: 
   - [ service, sshd, restart ]
-  - [ systemctl, disable, --now, multipathd ] 
-  - [ apt, purge, -y, unattended-upgrades, snapd, apparmor, irqbalance ]  
+  - [ systemctl, disable, --now, unattended-upgrades, fwupd, packagekit ]
+  - [ apt, remove, --purge, -y, unattended-upgrades, fwupd, packagekit ]
+  - [ systemctl, disable, --now, multipathd, multipathd.socket, irqbalance ]
+  - [ apt, remove, --purge, -y, irqbalance, snapd, apparmor ]
+  - [ apt, auto-remove, -y ]
 late-commands:
   - ip addr
   - ip route
